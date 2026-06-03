@@ -29,6 +29,7 @@
       "expo-router",
       [
         "expo-splash-screen",
+        
         {
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
@@ -38,7 +39,9 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "@clerk/expo",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
