@@ -1,15 +1,5 @@
-
-
-import { Redirect, Slot } from "expo-router";
+import { Slot, Stack } from "expo-router";
 
 export default function RootLayout() {
-  return (
-        <AuthGate />
-    
-  );
-}
-
-function AuthGate() {
-
-  return <Redirect href="/sign-in" />;
+  return <Slot />
 }

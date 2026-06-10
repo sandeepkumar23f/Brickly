@@ -1,59 +1,49 @@
-import { View, Text, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { router } from "expo-router";
 
-export default function SignUp() {
+export default function SignUpScreen() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSignUp = () => {
+    console.log("Sign up:", email, password);
+    router.replace("/");
+  };
+
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      keyboardShouldPersistTaps="handled"
-      className="bg-red-600"
-    >
-      <View className="flex-1 justify-center px-6 py-12">
-        <Image 
-          source={require("../../assets/images/splash-icon.png")}
-          className="w-32 h-16 mb-8"
-          resizeMode="contain"
-        />
-        
-        <Text className="text-xl font-bold text-white mb-6">
-          Find your dream home today.
-        </Text>
+    <View className="flex-1 justify-center bg-gray-100 px-6">
+      <Text className="text-3xl font-bold text-center mb-8 text-gray-800">
+        Create Account ✨
+      </Text>
 
-        {/* First Name */}
-        <TextInput
-          className="border border-gray-300 rounded-xl px-4 py-3 mb-4 bg-white"
-          placeholder="First Name"
-          placeholderTextColor="#9CA3AF"
-        />
+      <TextInput
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        className="bg-white border border-gray-300 rounded-lg px-4 py-3 mb-4"
+      />
+      <TextInput
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+        className="bg-white border border-gray-300 rounded-lg px-4 py-3 mb-6"
+      />
 
-        {/* Last Name */}
-        <TextInput
-          className="border border-gray-300 rounded-xl px-4 py-3 mb-4 bg-white"
-          placeholder="Last Name"
-          placeholderTextColor="#9CA3AF"
-        />
+      <TouchableOpacity
+        onPress={handleSignUp}
+        className="bg-green-600 rounded-lg py-3"
+      >
+        <Text className="text-white text-center font-semibold">Sign Up</Text>
+      </TouchableOpacity>
 
-        {/* Email */}
-        <TextInput
-          className="border border-gray-300 rounded-xl px-4 py-3 mb-4 bg-white"
-          placeholder="Email"
-          keyboardType="email-address"
-          placeholderTextColor="#9CA3AF"
-        />
-
-        {/* Password */}
-        <TextInput
-          className="border border-gray-300 rounded-xl px-4 py-3 mb-6 bg-white"
-          placeholder="Password"
-          secureTextEntry
-          placeholderTextColor="#9CA3AF"
-        />
-
-        {/* Sign Up Button */}
-        <TouchableOpacity className="bg-white rounded-xl py-3">
-          <Text className="text-center text-red-600 font-bold">Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
-  )
+      <TouchableOpacity
+        onPress={() => router.push("/sign-in")}
+        className="mt-4"
+      >
+        <Text className="text-green-600 text-center">Already have an account?</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
