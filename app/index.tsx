@@ -1,11 +1,12 @@
-import { useEffect } from "react";
-import { router } from "expo-router";
+import { Redirect } from "expo-router";
 import "../global.css"
 export default function Index() {
-  useEffect(() => {
-    
-    router.replace("/sign-in"); 
-  }, []);
+  // Replace with your auth logic (Clerk, Firebase, etc.)
+  const isSignedIn = false;
 
-  return null;
+  if (!isSignedIn) return <Redirect href="/sign-in" />;
+  return <Redirect href="/home" />;
 }
+
+
+
