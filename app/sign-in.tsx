@@ -1,14 +1,9 @@
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 import { router } from "expo-router";
 
 export default function SignInScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSignIn = () => {
-    console.log("Sign in:", email, password);
-    router.replace("/");
+  
   };
 
   return (
@@ -17,32 +12,56 @@ export default function SignInScreen() {
         Welcome Back 👋
       </Text>
 
+      {errorMessage ? (
+        <Text className="text-red-500 text-center mb-2">
+          {errorMessage}
+        </Text>
+      ) : null}
+
+      {successMessage ? (
+        <Text className="text-green-600 text-center mb-2">
+          {successMessage}
+        </Text>
+      ) : null}
+
       <TextInput
         placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
+        value={userData.email}
+        onChangeText={(text) => handleChange("email", text)}
+        keyboardType="email-address"
+        autoCapitalize="none"
         className="bg-white border border-gray-300 rounded-lg px-4 py-3 mb-4"
       />
+
       <TextInput
         placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
+        value={userData.password}
+        onChangeText={(text) => handleChange("password", text)}
         secureTextEntry
         className="bg-white border border-gray-300 rounded-lg px-4 py-3 mb-6"
       />
 
       <TouchableOpacity
-        onPress={handleSignIn}
-        className="bg-blue-600 rounded-lg py-3"
+        onPress={handleLogin}
+        className="bg-blue-600 rounded-lg py-3 flex items-center justify-center"
+        disabled={loading}
       >
-        <Text className="text-white text-center font-semibold">Sign In</Text>
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text className="text-white text-center font-semibold">
+            Sign In
+          </Text>
+        )}
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => router.push("/sign-up")}
         className="mt-4"
       >
-        <Text className="text-blue-600 text-center">Create an account</Text>
+        <Text className="text-blue-600 text-center">
+          Create an account
+        </Text>
       </TouchableOpacity>
     </View>
   );
