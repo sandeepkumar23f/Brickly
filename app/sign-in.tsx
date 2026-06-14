@@ -3,7 +3,70 @@ import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from "reac
 import { router } from "expo-router";
 
 export default function SignInScreen() {
-  
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const API =
+    process.env.EXPO_PUBLIC_BACKEND_URL || "http://localhost:5000";
+
+  const handleChange = (field: string, value: string) => {
+    setUserData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const validateEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const handleLogin = async () => {
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    if (!userData.email || !userData.password) {
+      setErrorMessage("All fields are required");
+      return;
+    }
+
+    if (!validateEmail(userData.email)) {
+      setErrorMessage("Enter valid email");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(`${API}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        setSuccessMessage("Login successful 🎉 Redirecting...");
+
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
+      } else {
+        setErrorMessage(result.message || "Invalid email or password");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setErrorMessage("Server error. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
